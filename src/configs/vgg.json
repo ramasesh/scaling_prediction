@@ -1,0 +1,30 @@
+{
+  "model_config": {
+    "arch": "vgg",
+    "n_channels": [
+      16,
+      32,
+      64,
+      128,
+      128
+    ],
+    "n_layers": [
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "use_bn": true
+  },
+  "optim_config": {
+    "optimizer": "sgd",
+    "base_lr": 0.1,
+    "momentum": 0.9,
+    "weight_decay": 1e-4,
+    "nesterov": true,
+    "epochs": 160,
+    "scheduler": "None",
+    "batch_size": 128
+  }
+}

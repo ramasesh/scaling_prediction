@@ -1,0 +1,18 @@
+{
+  "model_config": {
+    "arch": "densenet",
+    "n_blocks": [6,12,24,16],
+    "growth_rate": 12,
+    "compression_rate": 0.5
+  },
+  "optim_config": {
+    "optimizer": "sgd",
+    "base_lr": 0.1,
+    "momentum": 0.9,
+    "weight_decay": 1e-4,
+    "nesterov": true,
+    "epochs": 300,
+    "scheduler": "None",
+    "batch_size": 64
+  }
+}
