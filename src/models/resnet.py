@@ -132,8 +132,11 @@ class Network(nn.Module):
                          'fc.weight': {},
                          'fc.bias': {}}
     """
-    params_to_measure = {'fc.weight': {},
+    params_to_measure = {'stage0.block2.conv2.weight': {'input_shape': [20,20]},
+                         'stage1.block2.conv2.weight': {'input_shape': [20,20]},
+                         'fc.weight': {},
                          'fc.bias': {}}
+
     def __init__(self, config):
         super(Network, self).__init__()
 

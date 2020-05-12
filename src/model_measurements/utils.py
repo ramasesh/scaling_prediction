@@ -86,7 +86,6 @@ def measure_characteristic_on_dataset(msmts_to_make,
                         for c in parameters_to_study}
 
   for step, (data, targets) in enumerate(dataloader):
-
     zero_model_gradients(model)
 
     data = data.to(device)

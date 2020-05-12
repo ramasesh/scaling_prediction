@@ -33,28 +33,34 @@ def make_measurements(model, config, loaders, initial_parameters, initial_named_
   measurements = {}
 
   device = torch.device(config['run_config']['device'])
+  grad_characteristics_to_measure = ['L2Norm',
+                                  'L1Norm',
+                                  'SpectralNorm',
+                                     'LinftyNorm']
+  """ Data-independent """
+  """ Model characteristics"""
+  characteristics_to_measure = ['L2Norm',
+                                'L1Norm',
+                                'SpectralNorm',
+                                'LinftyNorm',
+                                'L2toInit']
+  print('Measuring model characteristics')
+  model_characteristics = mu.measure_model_characteristics(characteristics_to_measure,
+                                                           model,
+                                                           model.params_to_measure,
+                                                           initial_named_parameters)
+  measurements.update(model_characteristics)
+  """ End model characteristics """
+
+  """ Data-dependent """
+  """ Output characteristics only """
   outputs_to_measure = ['logit_sum',
                         'correct_logit',
                         'logit_margin',
                         'highest_incorrect_logit',
                         'accuracy',
                         'cross_entropy']
-  characteristics_to_measure = ['L2Norm',
-                                'L1Norm',
-                                'SpectralNorm',
-                                'LinftyNorm',
-                                'L2toInit']
-  grad_characteristics_to_measure = ['L2Norm',
-                                  'L1Norm',
-                                  'SpectralNorm',
-                                     'LinftyNorm']
-
-  model_characteristics = mu.measure_model_characteristics(characteristics_to_measure,
-                                                           model,
-                                                           model.params_to_measure,
-                                                           initial_named_parameters)
-  measurements.update(model_characteristics)
-
+  print('Measuring output characteristics')
   for ind, l in enumerate([train_loader, test_loader]):
       output_cumulants = mu.measure_on_dataset(outputs_to_measure,
                                                               model,
@@ -64,11 +70,14 @@ def make_measurements(model, config, loaders, initial_parameters, initial_named_
       if ind == 0:
         measurements.update({'train_outputs': output_cumulants})
       elif ind == 1:
-        measurements.update({'test_outpute': output_cumulants})
+        measurements.update({'test_outputs': output_cumulants})
+  """ End output characteristics """
 
-  print('Measuring internal characteristics')
+  """ Data-dependent """
+  """ Norms of gradients """
   for ind, l in enumerate([single_train_loader, single_test_loader]):
-      print(f"Ind = {ind}")
+      print('Measuring gradient characteristics')
+      ## debug
       internal_characteristics = mu.measure_characteristic_on_dataset(
                                             grad_characteristics_to_measure,
                                             model,
@@ -77,10 +86,9 @@ def make_measurements(model, config, loaders, initial_parameters, initial_named_
                                             model.params_to_measure,
                                             list(initial_named_parameters))
       if ind == 0:
-        measurements.update({'train_internal_chars': internal_characteristics})
+        measurements.update({'train_gradient_chars': internal_characteristics})
       elif ind == 1:
-        measurements.update({'test_internal_chars': internal_characteristics})
-
+        measurements.update({'test_gradient_chars': internal_characteristics})
   return measurements
 
 def main(argv):
@@ -103,7 +111,6 @@ def main(argv):
   loaders = get_loader(config['data_config'])
   train_loader, test_loader, single_train_loader, single_test_loader = loaders
   config['optim_config']['steps_per_epoch'] = len(train_loader)
-
 
   train_setup.set_reproducible(seed=config['run_config']['seed'])
 
