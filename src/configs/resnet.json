@@ -1,18 +1,8 @@
 {
-  "model_config": {
-    "arch": "resnet",
-    "base_channels": 32,
-    "block_type": "basic",
-    "depth": 18
-  },
-  "optim_config": {
-    "optimizer": "sgd",
-    "base_lr": 0.1,
-    "momentum": 0.9,
-    "weight_decay": 1e-4,
-    "nesterov": true,
-    "epochs": 160,
-    "scheduler": "None",
-    "batch_size": 128
-  }
+"arch": "resnet",
+"base_channels_rn": 32,
+"block_type_rn": "basic",
+"depth_rn": 18,
+"input_shape": [1,3,32,32],
+"n_classes": 10
 }
