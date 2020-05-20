@@ -34,14 +34,14 @@ def make_measurements(model, config, loaders, initial_parameters, initial_named_
 
   device = torch.device(config['run_config']['device'])
   grad_characteristics_to_measure = ['L2Norm',
-                                  'L1Norm',
-                                  'SpectralNorm',
+                                     'L1Norm',
+                                     'ApproxSpectralNorm',
                                      'LinftyNorm']
   """ Data-independent """
   """ Model characteristics"""
   characteristics_to_measure = ['L2Norm',
                                 'L1Norm',
-                                'SpectralNorm',
+                                'ApproxSpectralNorm',
                                 'LinftyNorm',
                                 'L2toInit']
   print('Measuring model characteristics')

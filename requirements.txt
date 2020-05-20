@@ -1,0 +1,12 @@
+google-cloud-storage
+torch
+torchvision
+PyYAML
+absl-py
+
+matplotlib
+
+json_lines
+pandas
+
+-e git+https://source.developers.google.com/p/blueshift-research/r/uv#egg=blueshift-uv

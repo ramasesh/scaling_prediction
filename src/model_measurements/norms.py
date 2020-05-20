@@ -10,7 +10,7 @@ def Linfty_norm(mat1, **kwargs):
 
 def approx_spectral_norm(mat1, **kwargs):
   if len(mat1.size()) == 4:
-    reshaped_mat = mat1.view(-1,mat1.size()[-1]).numpy()
+    reshaped_mat = mat1.view(-1,mat1.size()[-1]).cpu().numpy()
     return np.max(np.linalg.svd(reshaped_mat, compute_uv=False))
   elif len(mat1.size()) == 2:
     _, S, _ = mat1.svd()
